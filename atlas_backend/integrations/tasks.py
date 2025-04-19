@@ -1,7 +1,7 @@
 # integrations/tasks.py
 
 from celery import shared_task
-from .models import Integration  # Assuming you have a model for integrations
+from .models import AsanaIntegration  # Assuming you have a model for integrations
 
 @shared_task
 def sync_google_calendar():
