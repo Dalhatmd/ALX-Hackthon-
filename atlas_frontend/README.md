@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Atlas Frontend
 
-## Getting Started
+This is the frontend of the **Atlas Workspace Management Platform**, built with [Next.js](https://nextjs.org) and styled using **Tailwind CSS**. The project is modular, scalable, and designed for seamless integration with backend APIs.
 
-First, run the development server:
+---
 
+## 🚀 **Getting Started**
+
+### **Prerequisites**
+Make sure you have the following installed:
+- **Node.js** (v18.17 or later) - [Download Node.js](https://nodejs.org/)
+- **npm** (comes with Node.js), **yarn**, or **pnpm**
+- Git for version control
+
+### **Installation**
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/atlas-frontend.git
+   cd atlas-frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8000/api
+   ```
+
+### **Development**
+
+Start the development server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ **Project Setup**
 
-## Learn More
+Built with modern technologies:
+- **Next.js 14**: For server-side rendering and API routes
+- **TypeScript**: For type safety and better DX
+- **Tailwind CSS**: For utility-first styling
+- **React Icons**: For beautiful icons
+- **shadcn/ui**: For reusable UI components
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 **Folder Structure**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+atlas_frontend/
+├── src/
+│   ├── app/           # Next.js app router pages
+│   ├── components/    # Reusable components
+│   │   ├── auth/     # Authentication components
+│   │   ├── layout/   # Layout components (Navbar, Footer)
+│   │   └── sections/ # Page sections (Hero, Resources)
+│   └── styles/       # Global styles
+├── public/           # Static assets
+└── tests/           # Test files
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ **Key Features**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 🎨 **Modern UI/UX**: Clean, responsive design with Tailwind CSS
+- 🔒 **Authentication**: Secure user authentication system
+- 📱 **Responsive**: Mobile-first approach
+- 🔍 **Search & Filter**: Advanced workspace search capabilities
+- 📅 **Booking System**: Intuitive workspace booking interface
+- 🔄 **Real-time Updates**: Live availability status
+- 🌐 **Integration Ready**: Connects with various third-party tools
+
+---
+
+## 🧪 **Testing**
+
+Run the test suite:
+```bash
+npm test
+```
+
+For development with watch mode:
+```bash
+npm test -- --watch
+```
+
+---
+
+## 📦 **Building for Production**
+
+1. Build the application:
+   ```bash
+   npm run build
+   ```
+
+2. Start the production server:
+   ```bash
+   npm start
+   ```
+
+3. For deployment, we recommend using:
+   - [Vercel](https://vercel.com) (Zero-configuration)
+   - [Netlify](https://www.netlify.com)
+   - [AWS Amplify](https://aws.amazon.com/amplify/)
+
+---
+
+## 👥 **Contributing**
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'feat: add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing Guidelines](CONTRIBUTING.md).
+
+---
+
+## 📄 **License**
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 **Support**
+
+For support, reach out to:
+- Create an issue
+- Contact the team at support@atlas.com
+- Join our [Discord community](https://discord.gg/atlas)
