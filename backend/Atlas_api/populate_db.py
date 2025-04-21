@@ -42,6 +42,28 @@ def create_sample_data():
         'general': [],
         'employees': []
     }
+    print("Creating teams...")
+    teams = []
+    team_names = [
+        "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet"
+    ]
+
+    available_leaders = users['employees'] + users['admins']
+
+    for name in team_names:
+        if not available_leaders:
+            break  # No more leaders available
+
+        leader = available_leaders.pop()  # assign leader
+
+        team = Team.objects.create(
+            name=f"Team {name}",
+            description=f"Team {name} specializing in workspace excellence.",
+            leader=leader
+        )
+
+        teams.append(team)
+        print(f"Created team: {team.name} led by {leader.email}")
     
     # Create 5 workspace owners
     for i in range(1, 6):

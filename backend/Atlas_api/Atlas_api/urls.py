@@ -1,11 +1,4 @@
-"""
-<<<<<<<< HEAD:backend/Atlas_api/Atlas_api/urls.py
-URL configuration for Atlas_api project.
-========
-URL configuration for {{ project_name }} project.
->>>>>>>> f33649ac90f6ed7e0505632d81a0b07a674584e5:atlas_backend/atlas-env/lib/python3.12/site-packages/django/conf/project_template/project_name/urls.py-tpl
-
-The `urlpatterns` list routes URLs to views. For more information please see:
+"""The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/{{ docs_version }}/topics/http/urls/
 Examples:
 Function views
@@ -24,5 +17,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('api/', include('users.urls'))
+    path('api/', include('users.urls')),
+    path('api/', include('workspaces.urls')),
+    path('api/', include('bookings.urls')),
+    path('api/', include('notifications.urls'))
 ]

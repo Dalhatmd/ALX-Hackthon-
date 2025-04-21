@@ -33,6 +33,14 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     notes = models.TextField(blank=True, null=True)
+    booked_by = models.ForeignKey(
+            User,
+            on_delete=models.SET_NULL,
+            null=True,
+            blank=True,
+            related_name='bookings_made',
+            help_text='User who made the booking, if different from the booked user.'
+            )
 
     def clean(self):
         """Validate booking times"""
@@ -69,3 +77,12 @@ class Booking(models.Model):
             models.Index(fields=['workspace', 'start_time', 'end_time']),
             models.Index(fields=['user', 'start_time']),
         ]
+
+class TeamInvitation(models.Model):
+    leader = models.ForeignKey(User, on_delete=models.CASCADE,related_name='sent_invitations')
+    invitee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_invitations')
+    created_at = models.DateTimeField(auto_now_add=True)
+    accepted = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('leader', 'invitee')

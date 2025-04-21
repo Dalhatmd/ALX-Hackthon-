@@ -39,12 +39,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         GENERAL = "GENERAL", _("General")  # Solo booker
         EMPLOYEE = "EMPLOYEE", _("Employee")
         OWNER = "OWNER", _("Owner")  # Workspace owner
+        TEAM_LEADER = "TEAM_LEADER", _("Team Leader") #Can create bookings for tesam
 
     email = models.EmailField("email address", unique=True)
     phone = models.CharField(max_length=20, blank=True)  # Only essential contact field
     user_type = models.CharField(
         max_length=20, choices=UserType.choices, default=UserType.GENERAL
     )
+    team_leader = models.ForeignKey(
+            "self",
+            on_delete=models.SET_NULL,
+            null=True,
+            blank=True,
+            related_name="team_members",
+            help_text="If the user is part of a team, link to their Team Leader."
+            )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -62,3 +71,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_admin(self):
         return self.user_type == self.UserType.ADMIN
+
+    def is_team_leader(self):
+        return self.user_type == self.UserType.TEAM_LEADER
