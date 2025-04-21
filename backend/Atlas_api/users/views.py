@@ -3,8 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from .serializers import UserRegistrationSerializer, LoginSerializer, UserInfoSerializer
+from .serializers import UserRegistrationSerializer, LoginSerializer, UserInfoSerializer, UserUpdateSerializer
 from django.http import JsonResponse
+from rest_framework.generics import UpdateAPIView
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -79,3 +80,11 @@ class MeView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+class UpdateUserView(UpdateAPIView):
+    serializer_class = UserUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user  # The user is updated based on the authenticated request
+
