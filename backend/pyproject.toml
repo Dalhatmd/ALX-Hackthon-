@@ -1,5 +1,5 @@
 [project]
-name = "atlas"
+name = "Atlas_api"
 version = "0.1.0"
 description = "Backend for Atlas Project"
 authors = [
@@ -34,3 +34,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
 
+[tool.poetry]
+packages = [
+    { include = "Atlas_api"}
+]
