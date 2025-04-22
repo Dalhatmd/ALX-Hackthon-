@@ -20,5 +20,6 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('workspaces.urls')),
     path('api/', include('bookings.urls')),
-    path('api/', include('notifications.urls'))
+    path('api/', include('notifications.urls')),
+    path('api/', include('teams.urls'))
 ]

@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-4i8bmiv8$6-h#te%j39b+5wsc3+d904dok-6@*vpw28f6&o^m!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Email settings
 
