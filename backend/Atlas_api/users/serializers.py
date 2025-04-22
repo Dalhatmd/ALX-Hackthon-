@@ -17,7 +17,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         # Validate user_type is one of the allowed choices
         valid_user_types = [User.UserType.ADMIN, User.UserType.GENERAL, 
-                           User.UserType.EMPLOYEE, User.UserType.OWNER]
+                           User.UserType.EMPLOYEE, User.UserType.OWNER, User.UserType.TEAM_LEADER]
         if attrs['user_type'] not in valid_user_types:
             raise serializers.ValidationError({"user_type": "Invalid user type selected."})
             

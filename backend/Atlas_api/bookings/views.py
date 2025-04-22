@@ -1,10 +1,15 @@
 from rest_framework import viewsets, permissions, status, filters
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Booking
 from .serializers import BookingSerializer, AdminBookingSerializer
 from django.contrib.auth import get_user_model
+from django.db.models import Count
+from django.db.models.functions import ExtractHour
+from rest_framework.permissions import IsAdminUser
+from users.permissions import IsAdminUserType
+from django.db.models.functions import ExtractWeekDay
 
 User = get_user_model()
 
@@ -112,3 +117,48 @@ class BookingViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(booking)
         return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAdminUserType])
+def admin_analytics_api(request):
+    # Mapping of weekday numbers to names
+    weekday_map = {
+            1: "Sunday",
+            2: "Monday",
+            3: "Tuesday",
+            4: "Wednesday",
+            5: "Thursday",
+            6: "Friday",
+            7: "Saturday",
+            }
+    # Peak Booking Times
+    bookings_by_hour = (
+        Booking.objects.annotate(hour=ExtractHour('start_time'))
+        .values('hour')
+        .annotate(count=Count('id'))
+        .order_by('hour')
+    )
+    
+    bookings_by_day_raw = (
+            Booking.objects.annotate(weekday=ExtractWeekDay('start_time'))
+            .values('weekday')
+            .annotate(count=Count('id'))
+            .order_by('weekday')
+            )
+    
+    bookings_by_day = [
+            {"weekday": weekday_map[item["weekday"]], "count": item["count"]} for item in bookings_by_day_raw
+            ]    
+
+    # Top Workspaces
+    top_workspaces = (
+        Booking.objects.values('workspace__name')
+        .annotate(count=Count('id'))
+        .order_by('-count')[:5]
+    )
+
+    data = {
+        'bookings_by_hour': list(bookings_by_hour),
+        'bookings_by_day': list(bookings_by_day),
+        'top_workspaces': list(top_workspaces),
+    }
+    return Response(data)

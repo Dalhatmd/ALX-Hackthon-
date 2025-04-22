@@ -7,12 +7,30 @@ from .serializers import UserRegistrationSerializer, LoginSerializer, UserInfoSe
 from django.http import JsonResponse
 from rest_framework.generics import UpdateAPIView
 from django.contrib.auth import get_user_model
+from drf_spectacular.utils import extend_schema, OpenApiExample
+
 
 User = get_user_model()
 
 class SignupView(APIView):
     permission_classes = [permissions.AllowAny]
-    
+    @extend_schema(
+        request=UserRegistrationSerializer,
+        responses={201: UserRegistrationSerializer},
+         examples=[
+            OpenApiExample(
+                'Signup Example',
+                value={
+                    "email": "test@example.com",
+                    "password": "strongpassword123",
+                    "user_type": "regular",
+                },
+                request_only=True,
+            ),
+        ],
+    )
+
+
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -32,9 +50,25 @@ class SignupView(APIView):
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
+    @extend_schema(
+        request=LoginSerializer,
+        responses={200: UserInfoSerializer},
+        examples=[
+            OpenApiExample(
+                'Login Example',
+                value={
+                    "email": "test@example.com",
+                    "password": "strongpassword123",
+                },
+                request_only=True,
+            ),
+        ],
+    )
+ 
     
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
+        request=LoginSerializer,
         if serializer.is_valid():
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']

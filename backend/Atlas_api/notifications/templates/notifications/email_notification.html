@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notification</title>
+</head>
+<body>
+    <h2>Hello {{ user.first_name|default:user.email }},</h2>
+    <p>{{ notification.message }}</p>
+    
+    <p>Booking Details:</p>
+    <ul>
+        <li>Workspace: {{ booking.workspace.name }}</li>
+        <li>Start Time: {{ booking.start_time }}</li>
+        <li>End Time: {{ booking.end_time }}</li>
+        <li>Status: {{ booking.get_status_display }}</li>
+    </ul>
+    
+    <p>Thank you for using our service!</p>
+</body>
+</html>

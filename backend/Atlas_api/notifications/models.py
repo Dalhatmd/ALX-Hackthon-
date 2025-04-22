@@ -1,6 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from bookings.models import Booking
 
@@ -49,15 +53,36 @@ class Notification(models.Model):
         ]
 
 
-# Signal handlers to automatically create notifications
-from django.db.models.signals import post_save, pre_save
-from django.dispatch import receiver
+@receiver(post_save, sender=Notification)
+def send_notification_email(sender, instance, created, **kwargs):
+    """
+    Send an email notification when a new Notification is created
+    """
+    if created:
+        subject = f"Notification: {instance.get_notification_type_display()}"
+        
+        # You can create a more sophisticated HTML template
+        message = render_to_string('notifications/email_notification.html', {
+            'user': instance.user,
+            'notification': instance,
+            'booking': instance.booking,
+        })
+        
+        send_mail(
+            subject=subject,
+            message="",  # empty message since we're using html_message
+            from_email=None,  # will use DEFAULT_FROM_EMAIL from settings
+            recipient_list=[instance.user.email],
+            html_message=message,
+            fail_silently=False,
+        )
 
+
+# Signal handlers for Booking model (unchanged from your original code)
 @receiver(post_save, sender=Booking)
 def create_booking_notification(sender, instance, created, **kwargs):
     """Creates notifications when a booking is created or updated"""
     if created:
-        # New booking created
         Notification.objects.create(
             user=instance.user,
             booking=instance,
@@ -65,7 +90,6 @@ def create_booking_notification(sender, instance, created, **kwargs):
             message=f"You've booked {instance.workspace.name} from {instance.start_time.strftime('%Y-%m-%d %H:%M')} to {instance.end_time.strftime('%Y-%m-%d %H:%M')}"
         )
     else:
-        # Check if status changed
         if instance.status == Booking.Status.CONFIRMED:
             Notification.objects.create(
                 user=instance.user,
@@ -89,13 +113,12 @@ def create_booking_notification(sender, instance, created, **kwargs):
             )
 
 
-#Function to send booking reminders
+# Function to send booking reminders (unchanged from your original code)
 def send_booking_reminders():
     """
     Create reminder notifications for upcoming bookings
     This function can be called by a scheduled task (e.g., Celery)
     """
-    # Find bookings that are starting within the next 24 hours
     reminder_time = timezone.now() + timezone.timedelta(hours=24)
     upcoming_bookings = Booking.objects.filter(
         status=Booking.Status.CONFIRMED,
@@ -104,7 +127,6 @@ def send_booking_reminders():
     )
     
     for booking in upcoming_bookings:
-        # Check if reminder already sent
         reminder_exists = Notification.objects.filter(
             booking=booking,
             notification_type=Notification.Type.BOOKING_REMINDER
