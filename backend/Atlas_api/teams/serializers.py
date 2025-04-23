@@ -7,7 +7,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'phone', 'user-type', 'team_leader', 'is_staff', 'date_joined']
+        fields = ['id', 'email', 'phone', 'user_type', 'team_leader', 'is_staff', 'date_joined']
 
 class TeamSerializer(serializers.ModelSerializer):
     leader = UserSerializer(read_only=True)
