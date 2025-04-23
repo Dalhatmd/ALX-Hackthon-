@@ -121,8 +121,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME", "atlas_db"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
+        "USER": os.getenv("DB_USER"),
+        "HOST": os.getenv("DB_HOST"),
         "PASSWORD": os.getenv("DB_PASSWORD", ""),
         "PORT": os.getenv("DB_PORT", "5432"),
     }
