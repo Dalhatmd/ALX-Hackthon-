@@ -78,7 +78,7 @@ def send_notification_email(sender, instance, created, **kwargs):
         )
 
 
-# Signal handlers for Booking model (unchanged from your original code)
+# Signal handlers for Booking model
 @receiver(post_save, sender=Booking)
 def create_booking_notification(sender, instance, created, **kwargs):
     """Creates notifications when a booking is created or updated"""

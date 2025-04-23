@@ -70,11 +70,13 @@ class BookingViewSet(viewsets.ModelViewSet):
                 # Check if the booking_user is in a team led by current user
                 if not team:
                     raise ValidationError("You can only book for your own team members")
-                serializer.save(user=booking_user)
-                return
+                instance = serializer.save(user=booking_user)
+                return Response(self.get_serializer(instance).data, status=status.HTTP_201_CREATED)
 
         # Regular users — force booking for themselves
-        serializer.save(user=user)
+        instance = serializer.save(user=user)
+        return Response(self.get_serializer(instance).data, status=status.HTTP_201_CREATED)
+
     
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):

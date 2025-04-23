@@ -30,13 +30,15 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Email settings
+load_dotenv()
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
-#EMAIL_HOST_USER = os.getenv('EMAIL_USER')
-#EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = 'umarmd709@gmail.com'
 
 
 # Application definition
@@ -64,7 +66,14 @@ REST_FRAMEWORK = {
             'rest_framework_simplejwt.authentication.JWTAuthentication',
             ),
         'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+        'DATETIME_INPUT_FORMATS': [
+        '%Y-%m-%d %H:%M',
+        '%Y-%m-%dT%H:%M',
+        '%Y-%m-%dT%H:%M:%S.%fZ',
+        '%Y-%m-%dT%H:%M:%SZ',
+    ]
         }
+
 
 from datetime import timedelta
 
