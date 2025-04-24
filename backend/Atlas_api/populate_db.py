@@ -18,6 +18,8 @@ from django.contrib.auth import get_user_model
 from workspaces.models import Workspace, WorkspaceType, Amenity
 from bookings.models import Booking
 from notifications.models import Notification  # Update to your actual app name
+from teams.models import Team
+
 
 User = get_user_model()
 
@@ -29,6 +31,7 @@ Workspace.objects.all().delete()
 WorkspaceType.objects.all().delete()
 Amenity.objects.all().delete()
 User.objects.filter(is_superuser=False).delete()  # Don't delete superusers
+Team.objects.all().delete()
 
 @transaction.atomic
 def create_sample_data():
